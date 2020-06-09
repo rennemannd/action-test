@@ -1,4 +1,6 @@
 on: [push]
+  repository_dispatch:
+    types: [external-echo]
 
 jobs:
   hello_world_job:
