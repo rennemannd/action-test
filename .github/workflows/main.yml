@@ -15,10 +15,10 @@ jobs:
           repository: rennemannd/pr-test
           ref: v1.0
           token: ${{ secrets.GIT_HUB_TOKEN }}
-          path: .github/actions
+          path: fuggma
       - name: Hello world action step
         id: hello
-        uses: ./.github/actions
+        uses: fuggma/.github/actions
         with:
           who-to-greet: 'South Dakota'
       # Use the output from the `hello` step
