@@ -9,7 +9,7 @@ jobs:
         uses: actions/checkout@v2
       - name: Hello world action step
         id: hello
-        uses: actions/action-test
+        uses: rennemannd/pr-test/.github/actions
         with:
           who-to-greet: 'South Dakota'
       # Use the output from the `hello` step
