@@ -1,18 +1,24 @@
-on:
-  push:
-  repository_dispatch:
-    types: [external-echo]
+on: [push]
 
 jobs:
   hello_world_job:
     runs-on: ubuntu-latest
     name: A job to say hello
     steps:
+        # Checkout this repo
       - name: Checkout
         uses: actions/checkout@v2
+        # Checkout the private repo containing the action to run
+      - name: Checkout private action repo
+        uses: actions/checkout@v2
+        with:
+          repository: rennemannd/pr-test
+          ref: v1.0
+          token: ${{ secrets.GIT_HUB_TOKEN }}
+          path: .github/actions
       - name: Hello world action step
         id: hello
-        uses: rennemannd/pr-test/.github/actions@v1.0
+        uses: ./.github/actions
         with:
           who-to-greet: 'South Dakota'
       # Use the output from the `hello` step
