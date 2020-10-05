@@ -1,30 +1,33 @@
 on:
-  pull:
-  push_request:
+  pull_request:
+    branches:
+      - master
+      - '[0-9].[0-9]'
+    types: [opened, edited, synchronized, reopened]
   repository_dispatch:
-    types: [external-echo]
+    types: [updated]
 
 jobs:
   hello_world_job:
     runs-on: ubuntu-latest
-    name: A job to say hello
+    name: Checking PR Request
     steps:
-        # Checkout this repo
+      # To use this repository's private action, first checkout repo...
       - name: Checkout
         uses: actions/checkout@v2
-        # Checkout the private repo containing the action to run
+ 
+      # ... then checkout the private repo containing the action to run
       - name: Checkout private action repo
         uses: actions/checkout@v2
         with:
-          repository: rennemannd/pr-test
-          ref: v1.0
-          token: ${{ secrets.GIT_HUB_TOKEN }}
-          path: fuggma
-      - name: Hello world action step
-        id: hello
-        uses: ./fuggma/.github/actions
+          repository: infotechfl/ap-workflow-bot
+          ref: master
+          token: ${{ secrets.BOT_PAT }}
+          path: temp
+
+      - name: Checking Request
+        uses: ./temp/.github/actions/action-1
+        if: github.event_name == 'pull_request'
+        id: TestFormatting
         with:
-          who-to-greet: 'South Dakota'
-      # Use the output from the `hello` step
-      - name: Get the output time
-        run: echo "The time was ${{ steps.hello.outputs.time }}"
+          key: putPRinfohere
